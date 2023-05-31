@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+  <record id="mora_cliente_penalidad_view" model="ir.ui.view">
+      <field name="name">mora_cliente.penalidad.form</field>
+      <field name="model">mora_cliente.penalidad</field>
+      <field name="arch" type="xml">
+          <form>
+              <sheet>
+                  <group>
+                      <field name="name"/>
+                      <field name="prioidad"/>
+                      <field name="dias_vencimiento_permitidos"/>
+                      <field name="diario_id"/>
+                  </group>
+                  <group>
+                      <field name="tipo_cargo"/>
+                      <field name="importe"/>
+                      <field name="penalidad"/>
+                      <field name="producto_id"/>
+                  </group>
+              </sheet>
+          </form>
+      </field>
+  </record>
+
+  <record id="view_mora_cliente_penalidad_tree" model="ir.ui.view">
+      <field name="name">mora_cliente.penalidad.tree</field>
+      <field name="model">mora_cliente.penalidad</field>
+      <field name="arch" type="xml">
+          <tree string="Penalidades" create="1" sample="1">
+              <field name="name"/>
+              <field name="prioidad"/>
+              <field name="dias_vencimiento_permitidos"/>
+              <field name="tipo_cargo"/>
+              <field name="importe"/>
+              <field name="penalidad"/>
+          </tree>
+      </field>
+  </record>
+
+
+      <record id="action_mora_cliente_penalidad_form" model="ir.actions.act_window">
+      <field name="name">Penalidades</field>
+      <field name="type">ir.actions.act_window</field>
+      <field name="res_model">mora_cliente.penalidad</field>
+      <field name="view_mode">tree,form</field>
+      <field name="view_id" ref="mora_cliente.view_mora_cliente_penalidad_tree" />
+      <field name="domain">[]</field>
+      <field name="help" type="html">
+          <p class="o_view_nocontent_empty_folder">
+          </p><p>
+
+          </p>
+      </field>
+  </record>
+
+  <menuitem id="menu_view_mora_cliente_penalidad_tree" parent="account.menu_finance_configuration" action="action_mora_cliente_penalidad_form" sequence="100"/>
+
+</odoo>

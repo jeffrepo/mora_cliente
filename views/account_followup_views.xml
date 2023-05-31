@@ -1,0 +1,17 @@
+<odoo>
+    <data>
+
+        <record id="customer_statements_form_view_mora_cliente" model="ir.ui.view">
+            <field name="name">customer.statements.followup.mora_cliente</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="account_followup.customer_statements_form_view"/>
+            <field name="arch" type="xml">
+                <field name="followup_line_id" position="after">
+                  <button string="Calcular interés por mora" name="calcular_interes_mora"
+                          type="object" class="oe_highlight"/>
+                </field>
+            </field>
+        </record>
+
+    </data>
+</odoo>
