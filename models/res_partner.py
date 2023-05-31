@@ -28,7 +28,7 @@ class Partner(models.Model):
                 tipo_cargo = cliente.penalidad_id.tipo_cargo
                 importe = cliente.penalidad_id.importe
                 for factura in cliente.unreconciled_aml_ids:
-                    if factura.move_id.journal_id.id != cliente.penalidad_id.diario_id.id:
+                    if factura.move_id.journal_id.id != cliente.penalidad_id.diario_id.id and factura.move_id.move_type == "out_invoice":
                         mora_total = self.obtener_mora_facturas(fecha_hoy,factura,tipo_cargo,importe)
                         if mora_total > 0:
                             logging.warning('obtener_mora_facturas')
@@ -41,11 +41,11 @@ class Partner(models.Model):
                             lineas_factura.append(linea_factura_dic)
                         else:
                             logging.warning('No hay facturas anteriores por mora de esta factura')
-                            dias_sumar = int(factura.move_id.invoice_payment_term_id.line_ids[0].days)
+                            dias_sumar = 0
                             dias_vencimiento_permitidos = cliente.penalidad_id.dias_vencimiento_permitidos
                             if dias_vencimiento_permitidos > 0:
                                 dias_sumar += dias_vencimiento_permitidos
-                            nueva_fecha = factura.invoice_date + timedelta(days=dias_sumar)
+                            nueva_fecha = factura.move_id.invoice_date_due + timedelta(days=dias_sumar)
                             logging.warning(factura.invoice_date)
                             logging.warning(nueva_fecha)
                             logging.warning(fecha_hoy)
@@ -99,7 +99,7 @@ class Partner(models.Model):
             test_factura = self.env['account.move.line'].search([('factura_origen_mora_id','=',factura.move_id.id)],order='date desc')
             logging.warning(test_factura)
             logging.warning('obtener_mora_facturas')
-            lineas_factura_mora = self.env['account.move.line'].search([('factura_origen_mora_id','=',factura.move_id.id),('move_id.invoice_date','<',fecha_hoy)],order='date desc')
+            lineas_factura_mora = self.env['account.move.line'].search([('factura_origen_mora_id','=',factura.move_id.id),('move_id.invoice_date','<',fecha_hoy),('move_id.state','=','posted')],order='date desc')
             logging.warning(lineas_factura_mora)
             if len(lineas_factura_mora)>0:
 
