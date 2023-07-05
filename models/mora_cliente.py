@@ -12,7 +12,7 @@ class MoraCliente(models.Model):
     prioidad = fields.Integer('Prioridad')
     dias_vencimiento_permitidos = fields.Integer('Dias de vencimiento permitidos')
     tipo_cargo = fields.Selection(selection=[('importe_fijo', 'Importe fijo'),('porcentaje', 'Porcentaje'),], string='Tipo de cargo')
-    importe = fields.Float('Importe')
+    importe = fields.Float('Importe', digits=(16, 6))
     penalidad = fields.Float('Penalidad Máxima')
     producto_id = fields.Many2one('product.product','Producto')
     diario_id = fields.Many2one('account.journal','Diario', required=True)
