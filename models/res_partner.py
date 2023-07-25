@@ -56,7 +56,11 @@ class Partner(models.Model):
                                 logging.warning('si hay mora')
                                 mora = 0
                                 if tipo_cargo == 'porcentaje':
-                                    valor_mora = factura.move_id.amount_total*(importe/100)
+                                    valor_mora = 0
+                                    if factura.move_id.currency_id.id == factura.move_id.company_id.id:
+                                        valor_mora = factura.move_id.amount_total*(importe/100)
+                                    else:
+                                        valor_mora = factura.move_id.amount_total_signed*(importe/100)
                                     mora_total = valor_mora * dias
                                     logging.warning('porcentaje')
                                     logging.warning(mora_total)
@@ -108,7 +112,11 @@ class Partner(models.Model):
 
                     dias = (fecha_hoy - lineas_factura_mora[0].move_id.invoice_date).days
                     if tipo_cargo == 'porcentaje':
-                        valor_mora = factura.move_id.amount_total*(importe/100)
+                        valor_mora = 0
+                        if factura.move_id.currency_id.id == factura.move_id.company_id.id:
+                            valor_mora = factura.move_id.amount_total*(importe/100)
+                        else:
+                            valor_mora = factura.move_id.amount_total_signed*(importe/100)
                         mora_total = valor_mora * dias
                         logging.warning('porcentaje mora factura')
                         logging.warning(mora_total)
