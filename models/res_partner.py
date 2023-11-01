@@ -93,6 +93,7 @@ class Partner(models.Model):
 
 
                 logging.warning(facturas_mora)
+                factura_id.invoice_line_ids._uy_invoice_indicator()
             logging.warning('test')
         return True
 
